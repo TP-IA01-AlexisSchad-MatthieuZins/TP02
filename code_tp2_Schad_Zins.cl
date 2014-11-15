@@ -1,6 +1,7 @@
 
 
-;; Liste des tous les coups possibles
+;;======================= Liste de tous les coups possibles ============================
+
 (setq liste_coups '(
                    (1 1)
                    (1 2)
@@ -12,7 +13,7 @@
       )
 
 
-;; Fonctions de service
+;; ========================= Fonctions de service ===============================
 
 (defun coups_possibles (etat liste_coups)
   (let (liste)
@@ -25,9 +26,11 @@
   )
 
 (defun suivant (etat choix)
-  (let (suiv joueur)
-    (if (= (car etat) 1) (setq joueur 2) (setq joueur 1))
-    (setq suiv (list joueur (- (cadr etat) (cadr choix))))
+  (when (and (= (car etat) (car choix)) (<= (cadr choix) 3))
+    (let (suiv joueur)
+      (if (= (car etat) 1) (setq joueur 2) (setq joueur 1))
+      (setq suiv (list joueur (- (cadr etat) (cadr choix))))
+      )
     )
   )
 
@@ -52,7 +55,7 @@
 
 
 
-;; Parcours en profondeur
+;; ===================== Parcours en profondeur ============================
 
 (defun explore_profondeur (etat liste_coups vainqueur chemin actions)
  (let ((res) (temp))
@@ -96,9 +99,11 @@
     )
   )
 
+;; exemple d'appel pour la resolution du probleme en profondeur
+(afficher_solutions_profondeur '(1 5) liste_coups 1)
 
 
-;; parcours en largeur 
+;; ==================== parcours en largeur ============================
 
 (defun explore_largeur (etat liste_coups vainqueur)
   (let ((temp)(file)(file_chemins)(temp_chemins)(file_actions)(temp_actions)(i 1))
@@ -126,3 +131,6 @@
       )
     )
   )
+
+;; exemple d'appel pour la resolution du probleme en largeur
+(explore_largeur '(1 5) liste_coups 1)
